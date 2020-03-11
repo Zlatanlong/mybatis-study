@@ -1,4 +1,6 @@
 **/.vscode
-**/.project
 **/.settings
-**/target/
+**/target
+**/.classpath
+**/.project
+**/.factorypa
