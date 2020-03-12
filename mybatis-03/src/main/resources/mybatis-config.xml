@@ -6,8 +6,6 @@
 <configuration>
     <!--引入外部配置文件-->
     <properties resource="db.properties">
-        <property name="username" value="root"/>
-        <property name="password" value="Cc105481"/>
     </properties>
 
     <!--可以给实体类起别名-->

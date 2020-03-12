@@ -8,15 +8,25 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 
-//sqlSessionFactory--->SessionFactory
+/**
+ * 工厂模式
+ * qlSessionFactory--->SessionFactory
+ */
 public class MyBatisUtils {
+
     private static SqlSessionFactory sqlSessionFactory;
+
+    /**
+     * 单例模式 SqlSessionFactory
+     */
     static {
         try{
             //使用mybatis第一步、获取sqlSessionFactory对象
+            //相当于一条执行sql的连接
             String resource = "mybatis-config.xml";
             InputStream inputStream = Resources.getResourceAsStream(resource);
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            System.out.println("执行一次static");
         }catch(IOException e) {
             e.printStackTrace();
         }
@@ -26,6 +36,7 @@ public class MyBatisUtils {
     // SqlSession 完全包含了面向数据库执行 SQL 命令所需的所有方法。
     // 你可以通过 SqlSession 实例来直接执行已映射的 SQL 语句。
     public static SqlSession getSqlSession(){
+        System.out.println("执行getsqlSession");
         return sqlSessionFactory.openSession();
     }
 

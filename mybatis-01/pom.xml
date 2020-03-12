@@ -12,7 +12,7 @@
     <artifactId>mybatis-01</artifactId>
 
     <!--在build中配置resources，来防止我们资源导出失败的问题-->
-    <build>
+    <!-- <build>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -30,6 +30,6 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-    </build>
+    </build> -->
 
 </project>

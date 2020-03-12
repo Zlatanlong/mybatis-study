@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--namespace=绑定一个对应的mapper接口-->
 <mapper namespace="com.rui.dao.UserMapper">
-    <!--select查询语句-->
+    <!--select查询语句 id 对应接口方法名-->
     <select id="getUserList" resultType="com.rui.pojo.User">
        /*定义sql*/
        select * from mybatis.user

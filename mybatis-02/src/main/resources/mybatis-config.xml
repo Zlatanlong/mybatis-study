@@ -6,14 +6,15 @@
 <configuration>
     <!--引入外部配置文件-->
     <properties resource="db.properties">
+    <!-- 引入内部配置 -->
         <property name="username" value="root"/>
-        <property name="password" value="Cc105481"/>
+        <property name="password" value="lcl123"/>
     </properties>
 
     <!--可以给实体类起别名-->
     <typeAliases>
         <typeAlias type="com.rui.pojo.User" alias="User"/>
-<!--        <package name="com.rui.pojo"/>-->
+<!--     <package name="com.rui.pojo"/>-->
     </typeAliases>
     <!--environments配置环境组-->
     <!--default默认环境-->

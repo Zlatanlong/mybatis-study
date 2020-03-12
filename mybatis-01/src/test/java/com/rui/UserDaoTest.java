@@ -16,6 +16,7 @@ public class UserDaoTest {
         SqlSession sqlSession = MyBatisUtils.getSqlSession();
         try{
             //方式一：getMapper
+            // 反射机制,在sqlSession中绑定了类，然后返回它。
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             List<User> userList = mapper.getUserList();
 

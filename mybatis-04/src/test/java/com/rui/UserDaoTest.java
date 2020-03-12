@@ -19,7 +19,7 @@ public class UserDaoTest {
     public void getUserByRowBounds(){
         SqlSession sqlSession = MyBatisUtils.getSqlSession();
         //RowBounds实现
-        RowBounds rowBounds = new RowBounds(1, 2);
+        RowBounds rowBounds = new RowBounds(0, 2);
 
         //通过java代码层面实现分页
         List<User> userList = sqlSession.selectList("com.rui.dao.UserMapper.getUserByRowBounds",null,rowBounds);

@@ -14,7 +14,7 @@
 
 ## 1.1、什么是MyBatis
 
-![mybatis](/Users/yinrui/Documents/MyBatis/mybatis笔记/mybatis.png)
+![mybatis](mybatis.png)
 
 ## 简介
 
@@ -138,7 +138,7 @@ INSERT INTO `user` (`id`,`name`,`pwd`) VALUES
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.17</version>
+            <version>5.1.46</version>
         </dependency>
         <!--mybatis-->
         <dependency>
@@ -159,25 +159,25 @@ INSERT INTO `user` (`id`,`name`,`pwd`) VALUES
 
 ```xml
 <!--在build中配置resources，来防止我们资源导出失败的问题-->
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
+<build>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
                 <include>**/*.properties</include>
                 <include>**/*.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                    <include>**/*.xml</include>
-                </includes>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-    </build>
+            </includes>
+        </resource>
+        <resource>
+            <directory>src/main/java</directory>
+            <includes>
+                <include>**/*.properties</include>
+                <include>**/*.xml</include>
+            </includes>
+            <filtering>true</filtering>
+        </resource>
+    </resources>
+</build>
 ```
 
 
@@ -204,16 +204,14 @@ INSERT INTO `user` (`id`,`name`,`pwd`) VALUES
               <dataSource type="POOLED">
                   <property name="driver" value="com.mysql.jdbc.Driver"/>
                   <property name="url" value="jdbc:mysql://localhost:3306/mybatis?useSSL=true&amp;useUnicode=true&amp;characterEncoding=UFT-8"/>
-                  <property name="username" value="root"/>
-                  <property name="password" value="Cc105481"/>
+                  <property name="username" value="自己的账号"/>
+                  <property name="password" value="自己的密码"/>
               </dataSource>
           </environment>
       </environments>
   
   </configuration>
   ```
-
-  
 
 - 编写mybatis工具类
 
@@ -309,8 +307,6 @@ public class MyBatisUtils {
   }
   ```
 
-  
-
 - Dao接口
 
   ```java
@@ -325,8 +321,6 @@ public class MyBatisUtils {
   }
   
   ```
-
-  
 
 - 接口实现类由原来的UserImpl转变为一个Mapper配置文件
 
@@ -392,7 +386,7 @@ MapperRegistry是什么?
   2. 绑定接口错误
   3. 方法名不对
   4. 返回类型不对
-  5. Maven导出资源问题
+  5. ==Maven导出资源问题==
 
 
 
@@ -406,9 +400,9 @@ namespace中的包名要和Dao/mapper接口的包名保持一致
 
 选择查询语句；
 
-- id：就是对应的namespace中的方法名；
-- resultType：Sql语句执行的返回值！
-- parameterType：参数类型！
+- `id`：就是对应的namespace中的方法名；
+- `resultType`：Sql语句执行的返回值！
+- `parameterType`：参数类型！
 
 1. 编写接口
 
@@ -426,33 +420,28 @@ namespace中的包名要和Dao/mapper接口的包名保持一致
    
    ```
 
-   
-
 2. 编写对应的mapper中的sql语句
 
-   ```java
-    <select id="getUserById" resultType="com.rui.pojo.User" parameterType="int">
+   ```xml
+   <select id="getUserById" resultType="com.rui.pojo.User" parameterType="int">
           /*定义sql*/
           select * from mybatis.user where id = #{id};
-      </select>
+   </select>
    ```
-
-   
 
 3. 测试 <!--增删改需要提交事务-->
 
    ```java
-   		@Test
-       public void getUserById(){
-           SqlSession sqlSession = MyBatisUtils.getSqlSession();
-           UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-           User user = mapper.getUserById(1);
-           System.out.println(user);
-           sqlSession.close();
-       }
+   @Test
+   public void getUserById(){
+       SqlSession sqlSession = MyBatisUtils.getSqlSession();
+       UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+       User user = mapper.getUserById(1);
+       System.out.println(user);
+       sqlSession.close();
+   }
    ```
 
-   
 
 ## 3、Insert
 
@@ -460,7 +449,7 @@ namespace中的包名要和Dao/mapper接口的包名保持一致
 
 ## 5、Delete
 
-**注意点：增删改需要提交事务**
+==**注意点：增删改需要提交事务**==
 
 ## 6、分析错误
 
@@ -523,8 +512,6 @@ Map传递参数，直接在sql中取出key即可！【parameterType="map"】
    ```java
    List<User> userList=mapper.getUserLike("%李%");
    ```
-
-   
 
 2. 在sql拼接中使用通配符！
 
@@ -590,12 +577,12 @@ password=Cc105481
 
 
 
-```properties
+```xml
  <!--引入外部配置文件-->
-    <properties resource="db.properties">
-        <property name="username" value="root"/>
-        <property name="password" value="Cc105481"/>
-    </properties>
+ <properties resource="db.properties">
+     <property name="username" value="root"/>
+     <property name="password" value="Cc105481"/>
+ </properties>
    
 ```
 
@@ -606,28 +593,26 @@ password=Cc105481
 ## 4、类型别名（typeAliases）
 
 - 类型别名是为 Java 类型设置一个短的名字。
-
 - 存在的意义仅在于用来减少类完全限定名的冗余。
 
-  ```xml
-      <!--可以给实体类起别名-->
-      <typeAliases>
-          <typeAlias type="com.rui.pojo.User" alias="User"/>
-      </typeAliases>
-  ```
+```xml
+<!--可以给实体类起别名-->
+<typeAliases>
+    <typeAlias type="com.rui.pojo.User" alias="User"/>
+</typeAliases>
+```
 
-  也可以指定一个包名，MyBatis 会在包名下面搜索需要的 Java Bean,比如：
+也可以指定一个包名，MyBatis 会在包名下面搜索需要的 Java Bean,比如：
 
-  扫描实体类的包，他的默认别名就为这个类的类名，首字母小写！
+扫描实体类的包，他的默认别名就为这个类的类名，首字母小写！
 
-  ```xml
-   <!--可以给实体类起别名-->
-      <typeAliases>
-          <package name="com.rui.pojo"/>
-      </typeAliases>
-  ```
+```xml
+<!--可以给实体类起别名-->
+<typeAliases>
+    <package name="com.rui.pojo"/>
+</typeAliases>
+```
 
-  
 
 在实体类比较少的时候，使用第一种方式。
 
@@ -646,7 +631,7 @@ public class Author {
 
 这是 MyBatis 中极为重要的调整设置，它们会改变 MyBatis 的运行时行为。
 
-![Settings](/Users/yinrui/Documents/MyBatis/mybatis笔记/Settings.png)
+![Settings](Settings.png)
 
 
 
@@ -659,7 +644,7 @@ public class Author {
 - 一旦创建了SqlSessionFactory，就不再需要它了
 - 局部变量
 
-![mybatis运行流程](/Users/yinrui/Documents/MyBatis/mybatis笔记/mybatis运行流程.png)**SqlSessionFactory：**
+![mybatis运行流程](mybatis运行流程.png)**SqlSessionFactory：**
 
 - 可以想象为：数据库连接池
 - SqlSessionFactory 一旦被创建就应该在应用的运行期间一直存在，**没有任何理由丢弃它或重新创建另一个实例**。
@@ -676,7 +661,7 @@ public class Author {
 
 - 用完之后需要赶紧关闭，否则会占用资源
 
-  ![SqlSessionFactory](/Users/yinrui/Documents/MyBatis/mybatis笔记/SqlSessionFactory.png)
+  ![SqlSessionFactory](SqlSessionFactory.png)
 
 这里的每一个Mapper，就代表一个具体的业务！
 
@@ -686,19 +671,19 @@ public class Author {
 
 数据库中的字段
 
-![数据库中的字段](/Users/yinrui/Documents/MyBatis/mybatis笔记/数据库中的字段.png)
+![数据库中的字段](数据库中的字段.png)
 
-新建一个项目，拷贝之前的，测试实体类字段不一致的情况。
+新建一个项目，拷贝之前的，测试实体类字段`password`不一致的情况。
 
 ```java
 public class User {
     private int id;
     private String name;
-    private String pwd;
+    private String password;
 }
 ```
 
-![测试错误](/Users/yinrui/Documents/MyBatis/mybatis笔记/测试错误.png)
+![测试错误](测试错误.png)
 
 ```java
 //select * from mybatis.user where id = #{id}
@@ -758,17 +743,17 @@ id name password
 
 现在：日志工厂
 
-![日志](/Users/yinrui/Documents/MyBatis/mybatis笔记/日志.png)
+![日志](日志.png)
 
 - SLF4J 
-- LOG4J【掌握】
+- **LOG4J**【掌握】
 - LOG4J2
 - JDK_LOGGING
 - COMMONS_LOGGING 
 - STDOUT_LOGGING【掌握】
 - NO_LOGGING
 
-在Mybatis中具体使用那个日志实现，在设置中设定！
+在Mybatis中具体使用那个日志实现，在设置中设定！****
 
 **STDOUT_LOGGING标准日志输出**
 
@@ -782,13 +767,13 @@ id name password
 
 
 
-![日志配置](/Users/yinrui/Documents/MyBatis/mybatis笔记/日志配置.png)
+![日志配置](日志配置.png)
 
 
 
 ## 6.2、Log4j
 
-什么事log4j
+什么是log4j
 
 - Log4j是[Apache](https://baike.baidu.com/item/Apache/8512995)的一个开源项目，通过使用Log4j，我们可以控制日志信息输送的目的地是[控制台](https://baike.baidu.com/item/控制台/2438626)、文件、[GUI](https://baike.baidu.com/item/GUI)组件
 - 我们也可以控制每一条日志的输出格式
@@ -828,9 +813,6 @@ log4j.appender.R.MaxFileSize=100KB
 log4j.appender.R.MaxBackupIndex=5
 log4j.appender.R.layout=org.apache.log4j.PatternLayout
 log4j.appender.R.layout.ConversionPattern=%p %t %c - %m%n
-
-
-
 
 ```
 
@@ -879,8 +861,6 @@ Process finished with exit code 0
    ```java
     static Logger logger = Logger.getLogger(UserDaoTest.class);
    ```
-
-   
 
 3. 日志级别
 
@@ -986,7 +966,7 @@ select * from user limit startIndex,pageSize
 
 ## 7.3、分页插件
 
-![image-20191203175719275](/Users/yinrui/Documents/MyBatis/mybatis笔记/image-20191203175719275.png)
+![image-20191203175719275](image-20191203175719275.png)
 
 了解即可，万一以后公司的架构师，说要使用，只需要知道它是什么东西！
 
@@ -1111,8 +1091,6 @@ Never write another getter or equals method again, with one annotation your clas
            </dependency>
    ```
 
-   
-
 3. 在实体类上加注解即可
 
 
@@ -1159,6 +1137,7 @@ Never write another getter or equals method again, with one annotation your clas
 - 多个学生，对应一个老师
 - 对于学生这边而言，**关联**...多个学生，关联一个老师【多对一】
 - 对于老师而言，**集合**，一个老师又很多学生【一对多】
+- **左关联，右集合**
 
 
 
@@ -1553,7 +1532,7 @@ Where,set,choose,when
    (id=1 or id=2 or id=3)
    ```
 
-   ![image-20191205141204114](/Users/yinrui/Documents/MyBatis/mybatis笔记/image-20191205141204114.png)
+   ![image-20191205141204114](image-20191205141204114.png)
 
    
 
@@ -1580,7 +1559,7 @@ Where,set,choose,when
 
    建议：
 
-   - ​	先在Mysql中写出完整的SQL，在对应的去修改称为我们的动态SQL
+   - 	先在Mysql中写出完整的SQL，在对应的去修改称为我们的动态SQL
 
 # 13、缓存（了解）
 
@@ -1690,7 +1669,6 @@ Where,set,choose,when
        java.io.NotSerializableException: com.rui.pojo.User
       ```
 
-      
 
 小结：
 
@@ -1700,7 +1678,7 @@ Where,set,choose,when
 
 ## 13.5、缓存原理
 
-![image-20191205170549715](/Users/yinrui/Documents/MyBatis/mybatis笔记/image-20191205170549715.png)
+![image-20191205170549715](image-20191205170549715.png)
 
 
 

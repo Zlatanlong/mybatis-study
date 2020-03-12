@@ -10,4 +10,9 @@ public class Student {
     //学生需要关联一个老师！
     private Teacher teacher;
 
+    @Override
+    public String toString() {
+        return "Student [id=" + id + ", name=" + name + ", teacher=" + teacher + "]";
+    }
+
 }
