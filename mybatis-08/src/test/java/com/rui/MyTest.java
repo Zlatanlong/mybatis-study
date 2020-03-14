@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MyTest {
     @Test
-    public void InitBlog(){
+    public void InitBlog() {
         SqlSession sqlSession = MyBatisUtils.getSqlSession();
         BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
         Blog blog = new Blog();
@@ -41,20 +41,20 @@ public class MyTest {
     }
 
     @Test
-    public void queryBlogIF(){
+    public void queryBlogIF() {
         SqlSession sqlSession = MyBatisUtils.getSqlSession();
         BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
-        HashMap map = new HashMap();
-//        map.put("views",9999);
-//        map.put("author","尹锐2");
-        //map.put("title","Java如此简单2");
-        map.put("id","75c23f88ea6f4bc6ac4dc0a8f7afa373");
+        HashMap map = new HashMap<String, Object>();
+        map.put("views", 9999);
+        map.put("author", "尹锐3");
+        map.put("title", "Java如此简单4");
+        map.put("id", "db9cdc5a074246b4874683a4b1822185");
         mapper.updateBlog(map);
         sqlSession.close();
     }
 
     @Test
-    public void queryBlogForeach(){
+    public void queryBlogForeach() {
         SqlSession sqlSession = MyBatisUtils.getSqlSession();
         BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
         HashMap map = new HashMap();
@@ -62,7 +62,7 @@ public class MyTest {
         ids.add(1);
         ids.add(2);
         ids.add(3);
-        map.put("ids",ids);
+        map.put("ids", ids);
         List<Blog> blogs = mapper.queryBlogForeach(map);
         for (Blog blog : blogs) {
             System.out.println(blog);
